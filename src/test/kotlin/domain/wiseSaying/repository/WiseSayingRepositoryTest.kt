@@ -83,5 +83,4 @@ class WiseSayingFileRepositoryTest {
         assertThat(wiseSayingRepository.findById(wiseSaying.id)).isNull()
     }
 
-
 }
