@@ -1,3 +1,4 @@
+
 import com.think.global.SingletonScope
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
@@ -8,6 +9,7 @@ class AppTest {
     @BeforeEach
     fun setUp() {
         SingletonScope.wiseSayingRepository.clear()
+        SingletonScope.wiseSayingRepository.initTable()
     }
 
     @Test
