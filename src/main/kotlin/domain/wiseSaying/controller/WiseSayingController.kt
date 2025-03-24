@@ -18,8 +18,10 @@ class WiseSayingController {
 
     fun list(rq: Request) {
 
+        val currentPageNo = rq.getParamDefault("page", "1").toInt()
         val keyword = rq.getParamDefault("keyword", "")
         val keywordType = rq.getParamDefault("keywordType", "saying")
+        val pageSize = 5
 
         if (keyword.isNotBlank()) {
             println(
@@ -34,9 +36,20 @@ class WiseSayingController {
 
         println("번호 / 작가 / 명언")
         println("----------------------")
-        wiseSayingService.findByKeyword(keywordType, keyword).forEach {
+
+        val page = wiseSayingService.findByKeywordPaged(keywordType, keyword, currentPageNo, pageSize)
+
+        page.content.forEach {
             println("${it.id} / ${it.author} / ${it.saying}")
         }
+
+
+        val pageMenu = (1 .. page.totalPages).joinToString(" ") { i ->
+            if(i == currentPageNo) "[${i}]" else "$i"
+        }
+
+        println("페이지 : $pageMenu")
+
     }
 
     fun delete(rq: Request) {
