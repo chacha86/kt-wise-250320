@@ -2,6 +2,7 @@ package domain.wiseSaying.repository
 
 import com.think.domain.wiseSaying.entity.WiseSaying
 import com.think.global.SingletonScope
+import com.think.global.SingletonScope.wiseSayingRepository
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -60,6 +61,16 @@ class WiseSayingFileRepositoryTest {
 
         assertThat(count).isEqualTo(2)
         assertThat(result).containsExactly(w1, w2)
+    }
+
+    @Test
+    fun `findById`() {
+        val wiseSaying = wiseSayingRepository
+            .save(WiseSaying(saying = "나의 죽음을 적들에게 알리지 말라.", author = "충무공 이순신"))
+
+        val foundWiseSaying = wiseSayingRepository.findById(wiseSaying.id)
+
+        assertThat(foundWiseSaying).isEqualTo(wiseSaying)
     }
 
 
