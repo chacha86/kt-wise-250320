@@ -3,7 +3,7 @@ package com.think.domain.wiseSaying.controller
 import com.think.global.Request
 import com.think.global.SingletonScope
 
-class WiseSayingController{
+class WiseSayingController {
     private val wiseSayingService = SingletonScope.wiseSayingService
 
     fun write() {
@@ -16,10 +16,25 @@ class WiseSayingController{
         println("${wiseSaying.id}번 명언이 등록되었습니다.")
     }
 
-    fun list() {
+    fun list(rq: Request) {
+
+        val keyword = rq.getParamDefault("keyword", "")
+        val keywordType = rq.getParamDefault("keywordType", "saying")
+
+        if (keyword.isNotBlank()) {
+            println(
+                """
+                ----------------------
+                검색타입 : $keywordType
+                검색어 : $keyword
+                ----------------------
+            """.trimIndent()
+            )
+        }
+
         println("번호 / 작가 / 명언")
         println("----------------------")
-        wiseSayingService.getItems().forEach {
+        wiseSayingService.findByKeyword(keywordType, keyword).forEach {
             println("${it.id} / ${it.author} / ${it.saying}")
         }
     }
